@@ -1,5 +1,7 @@
 package model;
 
+import exception.DependenteException;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -13,6 +15,13 @@ public class Dependente extends Pessoa{
 		}
 		this.parentesco = parentesco;
 	}
+
+	@Override
+	public String toString() {
+		return 	super.toString() +
+				", parentesco: " + getParentesco();
+	}
+
 	public Parentesco getParentesco() {
 		return parentesco;
 	}

@@ -1,8 +1,7 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import service.CalculoService;
 
@@ -12,13 +11,16 @@ public class Funcionario extends Pessoa {
 	private Double descontoIR;
 	private Set<Dependente> dependentes = new HashSet<>();
 
-	public Funcionario(String nome, String cpf, LocalDate dataNascimento, Double salarioBruto, Double descontoINSS,
-			Double descontoIR, Set<Dependente> dependentes) {
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento, Double salarioBruto, Double descontoINSS, Double descontoIR, Set<Dependente> dependentes) {
 		super(nome, cpf, dataNascimento);
 		this.salarioBruto = salarioBruto;
 		this.descontoINSS = descontoINSS;
 		this.descontoIR = descontoIR;
 		this.dependentes = dependentes;
+	}
+
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento) {
+		super(nome, cpf, dataNascimento);
 	}
 
 	public void adicionarDependente(Dependente dependente) {
@@ -33,6 +35,10 @@ public class Funcionario extends Pessoa {
 		return salarioBruto;
 	}
 
+	public void setSalarioBruto(Double salarioBruto) {
+		this.salarioBruto = salarioBruto;
+	}
+
 	public Double getDescontoINSS() {
 		return descontoINSS;
 
@@ -40,7 +46,6 @@ public class Funcionario extends Pessoa {
 
 	public void setDescontoINSS(Double descontoINSS) {
 		this.descontoINSS = descontoINSS;
-
 	}
 
 	public Double getDescontoIR() {
@@ -59,9 +64,16 @@ public class Funcionario extends Pessoa {
 	public Double calcularSalarioLiquido() {
 		return salarioBruto - descontoINSS - descontoIR;
 	}
+
 	@Override
 	public String toString() {
-		return "O Funcionario " + " nome: " + getNome() + ", cpf: " + getCpf() + ", dataNascimento: " + getDataNascimento() + ", salarioBruto: " + salarioBruto +  ", descontoINSS: " + descontoINSS + ", descontoIR: " + descontoIR + ", dependentes: " + dependentes;
-		
+		return "O Funcionario" +
+				" nome: " + getNome() +
+				", cpf: " + getCpf() +
+				", dataNascimento: " + getDataNascimento() +
+				", salarioBruto: R$" + String.format("%.2f", getSalarioBruto()) +
+				", descontoINSS: R$" + String.format("%.2f", getDescontoINSS()) +
+				", descontoIR: R$" + String.format("%.2f", getDescontoIR()) +
+				", dependentes: " + getDependentes();
 	}
 }

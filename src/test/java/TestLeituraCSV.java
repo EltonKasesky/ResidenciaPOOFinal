@@ -1,5 +1,3 @@
-import util.LeituraCSV;
-
 import static util.LeituraCSV.leituraCSV;
 
 public class TestLeituraCSV {

@@ -10,16 +10,18 @@ import java.util.List;
 public class GravacaoCSV {
     public static void gerarCSV(List<Funcionario> funcionarios) {
         try {
-            FileWriter fw = new FileWriter("/Curso/logFuncionario.csv");
+            FileWriter fw = new FileWriter("/Curso/POOFinal/processado.csv");
             PrintWriter pw = new PrintWriter(fw);
 
             for (Funcionario f : funcionarios) {
+                f.calcularDescontos();
+
                 pw.printf("%s;%s;%.2f;%.2f;%.2f%n",
                         f.getNome(),
                         f.getCpf(),
                         f.getDescontoINSS(),
                         f.getDescontoIR(),
-                        f.getSalarioLiquido()
+                        f.calcularSalarioLiquido()
                 );
             }
 

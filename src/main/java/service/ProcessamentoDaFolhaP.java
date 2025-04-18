@@ -1,5 +1,6 @@
 package service;
 
+import exception.DependenteException;
 import model.*;
 import java.io.*;
 import java.time.LocalDate;

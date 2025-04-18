@@ -1,5 +1,6 @@
 package util;
 
+import exception.DependenteException;
 import model.Funcionario;
 import model.Dependente;
 import model.Parentesco;
@@ -28,7 +29,11 @@ public class LeituraCSV {
 
                 if (linha.isEmpty() && !bloco.isEmpty()) {
                     Funcionario f = processarBloco(bloco, formatter);
-                    if (f != null) funcionarios.add(f);
+                    if (f != null){
+                        f.calcularDescontos();
+                        f.calcularSalarioLiquido();
+                        funcionarios.add(f);
+                    }
                     bloco.clear();
                 } else {
                     bloco.add(linha);
@@ -37,14 +42,18 @@ public class LeituraCSV {
 
             if (!bloco.isEmpty()) {
                 Funcionario f = processarBloco(bloco, formatter);
-                if (f != null) funcionarios.add(f);
+                if (f != null){
+                    f.calcularDescontos();
+                    f.calcularSalarioLiquido();
+                    funcionarios.add(f);
+                }
+            }
+
+            for(Funcionario f : funcionarios){
+                System.out.println(f);
             }
 
             leitor.close();
-
-            for(Funcionario funcionario : funcionarios){
-                System.out.println(funcionario);
-            }
         } catch (FileNotFoundException e) {
             System.err.println("Caminho especificado não encontrado!");
             e.printStackTrace();
@@ -53,27 +62,26 @@ public class LeituraCSV {
     }
 
     private static Funcionario processarBloco(List<String> bloco, DateTimeFormatter formatter) {
-        if (bloco.isEmpty()) return null;
+        try {
+            if (bloco.isEmpty()) return null;
 
-        String[] dadosFuncionario = bloco.get(0).split(";");
+            String[] dadosFuncionario = bloco.get(0).split(";");
 
-        Funcionario f = new Funcionario();
-        f.setNome(dadosFuncionario[0]);
-        f.setCpf(dadosFuncionario[1]);
-        f.setDataNascimento(LocalDate.parse(dadosFuncionario[2], formatter));
-        f.setSalarioBruto(Double.parseDouble(dadosFuncionario[3]));
+            Funcionario f = new Funcionario(dadosFuncionario[0], dadosFuncionario[1], LocalDate.parse(dadosFuncionario[2], formatter));
+            f.setSalarioBruto(Double.parseDouble(dadosFuncionario[3]));
 
-        for (int i = 1; i < bloco.size(); i++) {
-            String[] dadosDep = bloco.get(i).split(";");
-            Dependente d = new Dependente();
-            d.setNome(dadosDep[0]);
-            d.setCpf(dadosDep[1]);
-            d.setDataNascimento(LocalDate.parse(dadosDep[2], formatter));
-            d.setParentesco(Parentesco.valueOf(dadosDep[3].toUpperCase()));
+            for(int i = 1; i < bloco.size(); i++) {
+                String[] dadosDep = bloco.get(i).split(";");
+                Dependente d = new Dependente(dadosDep[0], dadosDep[1], LocalDate.parse(dadosDep[2], formatter), Parentesco.valueOf(dadosDep[3].toUpperCase()));
 
-            f.getDependentes().add(d);
+                f.getDependentes().add(d);
+            }
+            return f;
+
+        } catch(DependenteException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-
-        return f;
+        return null;
     }
 }
