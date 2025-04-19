@@ -12,14 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class LeituraCSV {
-    public static List<Funcionario> leituraCSV() {
+    public static List<Funcionario> leituraCSV(String diretorio) {
         List<Funcionario> funcionarios = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
         try {
-            System.out.println("Insira o caminho do diretório ou seu arquivo: ");
-            String diretorio = sc.nextLine();
-
             Scanner leitor = new Scanner(new FileReader(diretorio));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
