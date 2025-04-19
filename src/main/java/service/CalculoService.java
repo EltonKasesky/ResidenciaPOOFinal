@@ -25,6 +25,7 @@ public class CalculoService {
 			return baseCalculo * 0.275 - 896.00;
 		}
 	}
+
 	public static Double calcularSalarioLiquido(Double salarioBruto, Double descontoINSS, Double descontoIR) {
 		return salarioBruto - descontoINSS - descontoIR;
 	}

@@ -49,10 +49,6 @@ public class LeituraCSV {
                 }
             }
 
-            for(Funcionario f : funcionarios){
-                System.out.println(f);
-            }
-
             leitor.close();
         } catch (FileNotFoundException e) {
             System.err.println("Caminho especificado não encontrado!");
