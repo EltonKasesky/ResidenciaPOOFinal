@@ -1,5 +1,6 @@
 package repository;
 
+import exception.FolhaDePagamentoException;
 import exception.FuncionarioException;
 import model.Funcionario;
 import util.CPFInvalidoCSV;
@@ -23,7 +24,7 @@ public class FuncionarioDao implements CPF{
                         stmt.setDate(3, Date.valueOf(funcionario.getDataNascimento()));
                         stmt.setDouble(4, Math.round(funcionario.getSalarioBruto() * 100.0) / 100.0);
                         stmt.execute();
-                        System.out.println("O funcionario(a) " + funcionario.getNome() + " foi adicionado com sucesso!");
+                        System.out.println("O funcionario(a) " + funcionario.getNome() + " foi registrado com sucesso!");
                     } else {
                         List<Funcionario> cpfInvalido = new ArrayList<>();
 
@@ -31,9 +32,12 @@ public class FuncionarioDao implements CPF{
                         CPFInvalidoCSV.inserirCPF(cpfInvalido, conn);
                         throw new SQLException("O CPF do funcionario " + funcionario.getNome() + " já existe no banco de dados!");
                     }
-                } catch (FuncionarioException e){
+                } catch (SQLException e){
                     System.err.println("Erro ao inserir funcionario: " + funcionario.getNome());
                     e.printStackTrace();
+                } catch(FuncionarioException e){
+                    System.err.println("Erro com funcionario: " + funcionario.getNome());
+                    System.err.println("Motivo: " + e.getMessage());
                 }
             }
         } catch(Exception e){

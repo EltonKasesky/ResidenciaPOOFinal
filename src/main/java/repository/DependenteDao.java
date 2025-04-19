@@ -1,6 +1,7 @@
 package repository;
 
 import exception.DependenteException;
+import exception.FolhaDePagamentoException;
 import model.Dependente;
 import model.Funcionario;
 import util.CPFInvalidoCSV;
@@ -36,9 +37,12 @@ public class DependenteDao implements CPF {
                             CPFInvalidoCSV.inserirCPF(cpfInvalido, conn);
                             throw new SQLException("O CPF do dependente " + dependente.getNome() + " já existe no banco de dados!");
                         }
-                    } catch(DependenteException e){
+                    } catch(SQLException e){
                         System.err.println("Erro ao inserir dependente: " + dependente.getNome());
                         e.printStackTrace();
+                    } catch(DependenteException e){
+                        System.err.println("Erro com dependente: " + dependente.getNome());
+                        System.err.println("Motivo: " + e.getMessage());
                     }
                 }
             }

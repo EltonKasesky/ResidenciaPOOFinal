@@ -28,13 +28,16 @@ public class FolhaDePagamentoDao implements CPF {
                         stmt.setDouble(5, funcionario.calcularSalarioLiquido());
                         stmt.execute();
 
-                        System.out.println("Folha de pagamento registrado no nome de " + funcionario.getNome());
+                        System.out.println("Folha de pagamento registrada no nome de " + funcionario.getNome());
                     } else {
                         throw new SQLException("O funcionario " + funcionario.getNome() + " já esta registrado na folha de pagamento!");
                     }
-                } catch(FolhaDePagamentoException e){
+                } catch(SQLException e){
                     System.err.println("Erro ao inserir folha de pagamento relacionada a: " + funcionario.getNome());
                     e.printStackTrace();
+                } catch(FolhaDePagamentoException e){
+                    System.err.println("Erro na folha de pagamento para: " + funcionario.getNome());
+                    System.err.println("Motivo: " + e.getMessage());
                 }
             }
         } catch(Exception e){
