@@ -2,12 +2,26 @@ package service;
 
 public class CalculoService {
 	private static final Double inssS = 8157.47;
-	private static final Double inssAL = 0.14;
 	private static final Double dependenteV = 189.59;
 
 	public static Double calcularINSS(Double salarioBruto) {
-		Double base = Math.min(salarioBruto, inssS);
-		return base * inssAL;
+		Double valorINSS;
+
+		if(salarioBruto <= 1518.00){
+			valorINSS = salarioBruto * 0.075;
+		} else if(salarioBruto <= 2793.88){
+			valorINSS = salarioBruto * 0.09 - 22.77;
+		} else if (salarioBruto <= 4190.83){
+			valorINSS = salarioBruto * 0.12 - 106.6;
+		} else {
+			valorINSS = salarioBruto * 0.14 - 190.42;
+		}
+
+		if(valorINSS >= 951.62){
+			valorINSS = 951.62;
+		}
+
+		return valorINSS;
 	}
 
 	public static Double calcularIR(Double salarioBruto, Double descontoINSS, int numeroDependentes) {

@@ -41,7 +41,6 @@ public class Funcionario extends Pessoa {
 
 	public Double getDescontoINSS() {
 		return descontoINSS;
-
 	}
 
 	public void setDescontoINSS(Double descontoINSS) {

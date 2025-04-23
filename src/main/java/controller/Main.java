@@ -25,6 +25,5 @@ public class Main {
         funcionarioDao.inserirFuncionarios(LeituraCSV.leituraCSV(diretorio), conn);
         dependenteDao.inserirDependente(LeituraCSV.leituraCSV(diretorio), conn);
         folhaDePagamentoDao.inserirPagamento(LeituraCSV.leituraCSV(diretorio), conn);
-
     }
 }
