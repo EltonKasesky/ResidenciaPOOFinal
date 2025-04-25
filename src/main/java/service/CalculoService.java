@@ -1,42 +1,39 @@
 package service;
 
 public class CalculoService {
-	private static final Double inssS = 8157.47;
-	private static final Double dependenteV = 189.59;
-
 	public static Double calcularINSS(Double salarioBruto) {
-		Double valorINSS;
+		double valorINSS;
 
-		if(salarioBruto <= 1518.00){
-			valorINSS = salarioBruto * 0.075;
-		} else if(salarioBruto <= 2793.88){
-			valorINSS = salarioBruto * 0.09 - 22.77;
-		} else if (salarioBruto <= 4190.83){
-			valorINSS = salarioBruto * 0.12 - 106.6;
+		if(salarioBruto <= ServiceINSS.BASE1.faixa){
+			valorINSS = salarioBruto * ServiceINSS.BASE1.taxa - ServiceINSS.BASE1.desconto;
+		} else if(salarioBruto <= ServiceINSS.BASE2.faixa){
+			valorINSS = salarioBruto * ServiceINSS.BASE2.taxa - ServiceINSS.BASE2.desconto;
+		} else if (salarioBruto <= ServiceINSS.BASE3.faixa){
+			valorINSS = salarioBruto * ServiceINSS.BASE3.taxa - ServiceINSS.BASE3.desconto;
 		} else {
-			valorINSS = salarioBruto * 0.14 - 190.42;
+			valorINSS = salarioBruto * ServiceINSS.BASE4.taxa - ServiceINSS.BASE4.desconto;
 		}
 
-		if(valorINSS >= 951.62){
-			valorINSS = 951.62;
+		if(valorINSS >= ServiceINSS.TETO){
+			valorINSS = ServiceINSS.TETO;
 		}
 
 		return valorINSS;
 	}
 
 	public static Double calcularIR(Double salarioBruto, Double descontoINSS, int numeroDependentes) {
-		double baseCalculo = salarioBruto - descontoINSS - (numeroDependentes * dependenteV);
+		double baseCalculo = salarioBruto - descontoINSS - (numeroDependentes * ServiceIR.DEPENDENTE);
 
-		if (baseCalculo <= 2259.00) {
-			return 0.0;
-		} else if (baseCalculo <= 2826.65) {
-			return baseCalculo * 0.075 - 169.44;
-		} else if (baseCalculo <= 3751.05) {
-			return baseCalculo * 0.15 - 381.44;
-		} else if (baseCalculo <= 4664.68) {
-			return baseCalculo * 0.225 - 662.77;
+		if (baseCalculo <= ServiceIR.BASE1.faixa) {
+			return baseCalculo * ServiceIR.BASE1.taxa - ServiceIR.BASE1.desconto;
+		} else if (baseCalculo <= ServiceIR.BASE2.faixa) {
+			return baseCalculo * ServiceIR.BASE2.taxa - ServiceIR.BASE2.desconto;
+		} else if (baseCalculo <= ServiceIR.BASE3.faixa) {
+			return baseCalculo * ServiceIR.BASE3.taxa - ServiceIR.BASE3.desconto;
+		} else if (baseCalculo <= ServiceIR.BASE4.faixa) {
+			return baseCalculo * ServiceIR.BASE4.taxa - ServiceIR.BASE4.desconto;
 		} else {
-			return baseCalculo * 0.275 - 896.00;
+			return baseCalculo * ServiceIR.BASE5.taxa - ServiceIR.BASE5.desconto;
 		}
 	}
 
